@@ -5,7 +5,8 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageModal from "./components/ImageModal/ImageModal";
-import { fetchImages, UnsplashImage } from "./services/unsplashApi";
+import { fetchImages } from "./services/unsplashApi";
+import { UnsplashImage } from "./types/unsplash";
 
 const App: React.FC = () => {
   const [images, setImages] = useState<UnsplashImage[]>([]);

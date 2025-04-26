@@ -1,4 +1,4 @@
-import { useEffect, MouseEvent, KeyboardEvent } from "react";
+import { useEffect, MouseEvent } from "react";
 import styles from "./ImageModal.module.css";
 
 interface ImageModalProps {
@@ -8,7 +8,10 @@ interface ImageModalProps {
 
 const ImageModal: React.FC<ImageModalProps> = ({ largeImageURL, onClose }) => {
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent): void => {
+    const handleKeyDown = function (
+      this: Window,
+      e: globalThis.KeyboardEvent
+    ): void {
       if (e.code === "Escape") {
         onClose();
       }

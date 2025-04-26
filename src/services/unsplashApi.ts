@@ -1,6 +1,11 @@
 import axios, { AxiosError } from "axios";
 import { UnsplashResponse } from "../types/unsplash";
 
+// Інтерфейс для помилок Unsplash API
+interface UnsplashError {
+  error?: string;
+}
+
 const API_KEY =
   import.meta.env.VITE_UNSPLASH_ACCESS_KEY || "YOUR_UNSPLASH_ACCESS_KEY";
 const BASE_URL = "https://api.unsplash.com/search/photos";
@@ -27,14 +32,21 @@ export const fetchImages = async ({
     });
     console.log("Unsplash API response:", response.data); // Дебагінг
     return response.data;
-  } catch (error: AxiosError) {
-    console.error(
-      "Unsplash fetch error:",
-      error.response?.data || error.message
-    );
-    if (error.response?.status === 429) {
-      throw new Error("Rate limit exceeded. Please try again later.");
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<UnsplashError>;
+      console.error(
+        "Unsplash fetch error:",
+        axiosError.response?.data || axiosError.message
+      );
+      if (axiosError.response?.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again later.");
+      }
+      throw new Error(
+        axiosError.response?.data?.error || "Failed to fetch images"
+      );
     }
-    throw new Error(error.response?.data?.error || "Failed to fetch images");
+    console.error("Unexpected error:", error);
+    throw new Error("Failed to fetch images");
   }
 };
