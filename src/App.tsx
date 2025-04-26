@@ -5,10 +5,10 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageModal from "./components/ImageModal/ImageModal";
-import { fetchImages, PixabayImage } from "./services/pixabayApi";
+import { fetchImages, UnsplashImage } from "./services/unsplashApi";
 
 const App: React.FC = () => {
-  const [images, setImages] = useState<PixabayImage[]>([]);
+  const [images, setImages] = useState<UnsplashImage[]>([]);
   const [query, setQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,9 +24,11 @@ const App: React.FC = () => {
       setError(null);
       try {
         const data = await fetchImages({ query, page });
-        setImages((prev) => [...prev, ...data.hits]);
-      } catch {
-        setError("Failed to load images. Please try again.");
+        console.log("Unsplash API response:", data); // Дебагінг
+        setImages((prev) => [...prev, ...data.results]);
+      } catch (err: any) {
+        console.error("Fetch error:", err.message);
+        setError(err.message || "Failed to load images. Please try again.");
       } finally {
         setIsLoading(false);
       }

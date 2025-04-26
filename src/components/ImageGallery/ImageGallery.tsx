@@ -1,9 +1,9 @@
-import { PixabayImage } from "../../types/pixabay";
+import { UnsplashImage } from "../../types/unsplash";
 import ImageCard from "../ImageCard/ImageCard";
-import "./ImageGallery.module.css";
+import styles from "./ImageGallery.module.css";
 
 interface ImageGalleryProps {
-  images: PixabayImage[];
+  images: UnsplashImage[];
   onImageClick: (largeImageURL: string) => void;
 }
 
@@ -11,8 +11,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   images,
   onImageClick,
 }) => {
+  if (!images.length) {
+    return <p>No images found.</p>;
+  }
   return (
-    <ul className="gallery">
+    <ul className={styles.gallery}>
       {images.map((image) => (
         <ImageCard key={image.id} image={image} onImageClick={onImageClick} />
       ))}

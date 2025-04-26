@@ -1,5 +1,5 @@
 import { FormEvent, ChangeEvent, useState } from "react";
-import "./SearchBar.module.css";
+import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
   onSubmit: (query: string) => void;
@@ -15,19 +15,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSubmit }) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (query) {
+      console.log("Search query:", query); // Дебагінг
       onSubmit(query);
       setQuery("");
     }
   };
 
   return (
-    <header className="searchbar">
-      <form className="form" onSubmit={handleSubmit}>
-        <button type="submit" className="button">
-          <span className="button-label">Search</span>
+    <header className={styles.searchbar}>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <button type="submit" className={styles.button}>
+          <span className={styles["button-label"]}>Search</span>
         </button>
         <input
-          className="input"
+          className={styles.input}
           type="text"
           autoComplete="off"
           autoFocus

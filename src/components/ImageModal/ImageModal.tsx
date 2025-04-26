@@ -1,5 +1,5 @@
 import { useEffect, MouseEvent, KeyboardEvent } from "react";
-import "./ImageModal.module.css";
+import styles from "./ImageModal.module.css";
 
 interface ImageModalProps {
   largeImageURL: string;
@@ -13,10 +13,9 @@ const ImageModal: React.FC<ImageModalProps> = ({ largeImageURL, onClose }) => {
         onClose();
       }
     };
-    window.addEventListener("keydown", handleKeyDown as any);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown as any);
-    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>): void => {
@@ -26,9 +25,9 @@ const ImageModal: React.FC<ImageModalProps> = ({ largeImageURL, onClose }) => {
   };
 
   return (
-    <div className="overlay" onClick={handleBackdropClick}>
-      <div className="modal">
-        <img src={largeImageURL} alt="" />
+    <div className={styles.modal} onClick={handleBackdropClick}>
+      <div className={styles["modal-content"]}>
+        <img src={largeImageURL} alt="Large image" />
       </div>
     </div>
   );

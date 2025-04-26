@@ -1,19 +1,19 @@
-import { PixabayImage } from "../../types/pixabay";
-import "./ImageCard.module.css";
+import { UnsplashImage } from "../../types/unsplash";
+import styles from "./ImageCard.module.css";
 
 interface ImageCardProps {
-  image: PixabayImage;
+  image: UnsplashImage;
   onImageClick: (largeImageURL: string) => void;
 }
 
 const ImageCard: React.FC<ImageCardProps> = ({ image, onImageClick }) => {
   return (
-    <li className="gallery-item">
+    <li className={styles["gallery-item"]}>
       <img
-        className="gallery-item-image"
-        src={image.webformatURL}
-        alt={image.tags}
-        onClick={() => onImageClick(image.largeImageURL)}
+        className={styles["gallery-item-image"]}
+        src={image.urls.small}
+        alt={image.alt_description || "Image"}
+        onClick={() => onImageClick(image.urls.full)}
       />
     </li>
   );

@@ -1,4 +1,4 @@
-import "./LoadMoreBtn.module.css";
+import styles from "./LoadMoreBtn.module.css";
 
 interface LoadMoreBtnProps {
   onClick: () => void;
@@ -6,7 +6,7 @@ interface LoadMoreBtnProps {
 
 const LoadMoreBtn: React.FC<LoadMoreBtnProps> = ({ onClick }) => {
   return (
-    <button type="button" className="load-more" onClick={onClick}>
+    <button className={styles["load-more"]} onClick={onClick}>
       Load more
     </button>
   );
