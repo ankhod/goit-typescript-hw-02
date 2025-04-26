@@ -1,23 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { UnsplashResponse } from "../types/unsplash";
 
 const API_KEY =
   import.meta.env.VITE_UNSPLASH_ACCESS_KEY || "YOUR_UNSPLASH_ACCESS_KEY";
 const BASE_URL = "https://api.unsplash.com/search/photos";
-
-export interface UnsplashImage {
-  id: string;
-  urls: {
-    small: string;
-    full: string;
-  };
-  alt_description: string | null;
-}
-
-export interface UnsplashResponse {
-  results: UnsplashImage[];
-  total: number;
-  total_pages: number;
-}
 
 interface FetchImagesParams {
   query: string;
@@ -41,11 +27,14 @@ export const fetchImages = async ({
     });
     console.log("Unsplash API response:", response.data); // Дебагінг
     return response.data;
-  } catch (error: any) {
+  } catch (error: AxiosError) {
     console.error(
       "Unsplash fetch error:",
       error.response?.data || error.message
     );
+    if (error.response?.status === 429) {
+      throw new Error("Rate limit exceeded. Please try again later.");
+    }
     throw new Error(error.response?.data?.error || "Failed to fetch images");
   }
 };
