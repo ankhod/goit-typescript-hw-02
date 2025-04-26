@@ -1,10 +1,7 @@
-import { ClipLoader } from 'react-spinners';
-import styles from './Loader.module.css';
+import "./Loader.module.css";
 
-export default function Loader() {
-  return (
-    <div className={styles.loader}>
-      <ClipLoader color="#007bff" size={50} />
-    </div>
-  );
-}
+const Loader: React.FC = () => {
+  return <div className="loader">Loading...</div>;
+};
+
+export default Loader;
